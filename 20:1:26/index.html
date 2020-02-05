@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>はいじめてのVue.js</title>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+  </head>
+  <body>
+    
+
+    <div id="fruits-component">
+      <ol>
+        <!-- v-forで繰り返した各fruitをprops(fruits-item)に与えている -->
+        <fruits-item-name
+          v-for="fruit in fruitsItems"
+          :key="fruit.name"
+          :fruits-item="fruit"
+        ></fruits-item-name>
+      </ol>
+    </div>
+
+    <script>
+      Vue.component("fruits-item-name", {
+        props: {
+          fruitsItem: {
+            //ケバブケース
+            type: Object, //オブジェクトかどうか
+            required: true //このコンポーネントには必須なのでtrue
+          }
+        },
+        template: "<li>{{fruitsItem.name}}</li>"
+      });
+      new Vue({
+        el: "#fruits-component",
+        data: {
+          fruitsItems: [{ name: "梨" }, { name: "イチゴ" }]
+        }
+      });
+      
+    </script>
+  </body>
+</html>

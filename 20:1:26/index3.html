@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>はいじめてのVue.js</title>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="fruits-counter">
+      <div v-for="fruit in fruits">
+        {{fruit.name}}:
+        <counter-button v-on:increment="incrementCartStatus()"></counter-button>
+      </div>
+      <p>合計: {{total}}</p>
+    </div>
+
+    <!-- js event test -->
+    <div>
+      <!-- changeイベント -->
+      <input type="text" onchange="test()" />
+      <div>
+        <select
+          name="select"
+          id="select"
+          onchange="console.log(this.innerHtml)"
+        >
+          <option value="1">a</option>
+          <option value="2">b</option>
+          <option value="3">c</option>
+        </select>
+      </div>
+
+      <!-- inputイベント -->
+      <input type="text" id="input" /> oninput: <span id="result"></span>
+      <p id="change"></p>
+
+      <input type="text" id="test2" /> target: <span id="target"></span>
+      <br />
+      <button onclick="currentTime()">時刻</button>
+    </div>
+
+    <script>
+      var currentTime = function() {
+        var hiduke = new Date();
+        var year = hiduke.getFullYear();
+        var month = hiduke.getMonth() + 1;
+        var week = hiduke.getDay();
+        var day = hiduke.getDate();
+        var hour = hiduke.getHours();
+        var minute = hiduke.getMinutes();
+        var second = hiduke.getSeconds();
+
+        var yobi = ["日", "月", "火", "水", "木", "金", "土"];
+
+        alert(
+          "西暦" +
+            year +
+            "年" +
+            month +
+            "月" +
+            day +
+            "日" +
+            yobi[week] +
+            "曜日" +
+            hour +
+            "時" +
+            minute +
+            "分" +
+            second +
+            "秒"
+        );
+      };
+      var test = function() {
+        alert("1から100の総和を計算します");
+        let sum = 0;
+        for (let i = 1; i <= 100; i++) {
+          sum += i;
+        }
+        alert(sum);
+      };
+
+      input.oninput = function() {
+        result.innerHTML = input.value;
+      };
+      test2.oninput = function() {
+        target.innerHTML = test2.value;
+      };
+      input.onchange = function() {
+        change.innerHTML = input.value;
+      };
+
+      var counterButton = Vue.extend({
+        template:
+          "<span>{{counter}}個<button v-on:click='addToCart'>追加</button></span>",
+        data: function() {
+          return {
+            counter: 0
+          };
+        },
+        methods: {
+          addToCart: function() {
+            this.counter += 1;
+            this.$emit("increment"); // incrementカスタムイベントの発火
+          }
+        }
+      });
+
+      var vm = new Vue({
+        el: "#fruits-counter",
+        components: {
+          "counter-button": counterButton
+        },
+        data: {
+          total: 0,
+          fruits: [{ name: "梨" }, { name: "イチゴ" }]
+        },
+        methods: {
+          incrementCartStatus: function() {
+            this.total += 1;
+          }
+        }
+      });
+
+      var name = "太郎さん";
+
+      var obj = {
+        name: "田中さん",
+
+        myFunc1: function() {
+          console.log(this.name);
+        },
+        myFunc2: () => console.log(this.name)
+      };
+      obj.myFunc1();
+      obj.myFunc2();
+
+
+    </script>
+  </body>
+</html>

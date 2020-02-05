@@ -1,0 +1,68 @@
+<!-- ログインフォームコンポーネントの作成 -->
+
+<script src="https://unpkg.com/vue@2.6.11"></script>
+<style>
+  .header h1 {
+    width: 100%;
+    height: 30px;
+    background-color: #f1f1f1;
+    border: 1px solid #d3d3d3;
+    padding: 30px 15px;
+  }
+
+  .content li {
+    width: 100%;
+    height: 30px;
+    padding: 30px 15px;
+    background-color: white;
+    border: 1px solid #d3d3d3;
+    text-align: left;
+  }
+</style>
+
+<div id="login-example">
+  <user-login></user-login>
+</div>
+
+<!-- テンプレート -->
+<script type="text/x-template" id="login-template">
+  <div id="login-template">
+    <div>
+      <input type="text" placeholder="ログインID" v-model="userid">
+    </div>
+    <div>
+      <input type="password" placeholder="パスワード" v-model="password">
+    </div>
+    <button @click="login()">ログイン</button>
+  </div>
+</script>
+
+<script>
+  // コンポーネント定義
+  Vue.component("user-login", {
+    template: "#login-template",
+    data: function() {
+      return {
+        userid: "",
+        password: ""
+      };
+    },
+    methods: {
+      login: function() {
+        auth.login(this.userid, this.password);
+      }
+    }
+  });
+
+  // ログイン周りのダミー
+  // 本来ならバックエンド側で実装したログイン機能を呼び出すはず
+  var auth = {
+    login: function(id, pass) {
+      window.alert("userid:" + id + "\n" + "password:" + pass); // ここではidとpasswordをアラートに表示
+    }
+  };
+
+  new Vue({
+    el: "#login-example"
+  });
+</script>

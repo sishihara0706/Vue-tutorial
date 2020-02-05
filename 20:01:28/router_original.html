@@ -1,0 +1,176 @@
+<!-- ルーティングの応用 -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue.js SPAのサンプルアプリケーション(応用)</title>
+    <style>
+      h1 {
+        color: red;
+      }
+      .rotate {
+        transform: rotate(180deg);
+        transition: 0.3s ease-out;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <router-link to="/top">トップページ</router-link>
+      <router-link to="/users">ユーザー一覧ページ</router-link>
+      <router-link to="/users">ユーザー一覧ページ</router-link>
+      <router-link to="/page0/ishihara">page0/ishihara</router-link>
+      <router-link to="/page0/satoshi">page0/satoshi</router-link>
+      <router-link to="/page0/YKKAP">page0/YKKAP</router-link>
+      <router-link to="/page0/shdvsbfdjsd">page0/</router-link>
+      <router-link to="/page1">page1</router-link>
+      <router-link to="/page2">page2</router-link>
+      <router-link to="/page3">page3</router-link>
+      <router-link to="/page4">page4</router-link>
+      <router-link to="/page5">page5</router-link>
+      <router-view></router-view>
+    </div>
+
+    <div>
+      <button class="rotate-btn">Rotate</button>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+    <script type="text/x-template" id="top">
+      <div id="top">
+        <h1>トップページです</h1>
+        <p>このアプリケーションは、エンジニアが登録されており、プロフィールなどを見ることができます。<br>
+        ぜひ楽しんで行ってください。<br>
+        エンジニアを登録したい方も可能です！</p>
+      </div>
+    </script>
+
+    <script type="text/x-template" id="users">
+      <div id="users">
+        <h1>ユーザー一覧ページです</h1>
+        <p>以下のユーザーが登録されています。クリックしてプロフィールをご覧になってください。</p>
+      </div>
+    </script>
+
+    <script type="text/x-template" id="page0">
+      <div id="page0">
+        <h1 class="page0"> {{ $route.params.id }}</h1>
+      </div>
+    </script>
+
+    <script type="text/x-template" id="page1">
+      <div id="page1">
+        <h1 class="page1">page1</h1>
+      </div>
+    </script>
+
+    <script type="text/x-template" id="page2">
+      <div id="page2">
+        <h1>page2</h1>
+      </div>
+    </script>
+
+    <script type="text/x-template" id="page3">
+      <div id="page3">
+        <h1>page3</h1>
+      </div>
+    </script>
+
+    <script type="text/x-template" id="page4">
+      <div id="page4">
+        <h1>page4</h1>
+      </div>
+    </script>
+
+    <script type="text/x-template" id="page5">
+      <div id="page5">
+        <h1>page5</h1>
+      </div>
+    </script>
+
+    <script>
+      var Top = {
+        template: "#top"
+      };
+      var Users = {
+        template: "#users"
+      };
+
+      var page0 = {
+        template: "#page0"
+      };
+
+      var page1 = {
+        template: "#page1"
+      };
+
+      var page2 = {
+        template: "#page2"
+      };
+      var page3 = {
+        template: "#page3"
+      };
+      var page4 = {
+        template: "#page4"
+      };
+      var page5 = {
+        template: "#page5"
+      };
+      // ルートオプションを渡してルータインスタンスの生成
+      var router = new VueRouter({
+        // 各ルートにコンポーネントをマッピングする
+        // コンポーネントはVue.extend()によって作られたコンポーネントコンストラクタでも
+        // コンポーネントオプションのオブジェクトでも良い
+        routes: [
+          {
+            path: "/top",
+            component: Top
+          },
+          {
+            path: "/users",
+            component: Users
+          },
+          {
+            path: "/page0/:id",
+            component: page0
+          },
+          {
+            path: "/page1",
+            component: page1
+          },
+          {
+            path: "/page2",
+            component: page2
+          },
+          {
+            path: "/page3",
+            component: page3
+          },
+          {
+            path: "/page4",
+            component: page4
+          },
+          {
+            path: "/page5",
+            component: page5
+          }
+        ]
+      });
+      router.beforeEach(function(to, from, next) {
+        if (to.path === "/page4") {
+          next("/page5");
+        } else {
+          next();
+        }
+      });
+
+      // ルータのインスタンスをrootとなるVueインスタンスに渡す
+      var app = new Vue({
+        router: router
+      }).$mount("#app");
+      var rotateBtn = document.getElementsByClassName("rotate-btn");
+    </script>
+  </body>
+</html>
